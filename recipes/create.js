@@ -6,7 +6,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient()
 module.exports.create = (event, context, callback) => {
 	const timestamp = new Date().getTime()
 	const data = JSON.parse(event.body)
-	if(typeof data.text !== 'string'){
+	if(typeof data.recipe !== 'string'){
 		console.error('Validation Failed')
 		callback(new Error('Couldn\'t create the recipe item.'))
 		return
@@ -15,7 +15,7 @@ module.exports.create = (event, context, callback) => {
 		TableName: 'recipes',
 		Item: {
 			id: timestamp.toString(),
-			recipe: data.text
+			recipe: data.recipe
 		}
 	}	
 

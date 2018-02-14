@@ -1,13 +1,11 @@
 'use strict'
 
 const AWS = require('aws-sdk')
-
 const dynamoDb = new AWS.DynamoDB.DocumentClient()
 
 module.exports.update = (event, context, callback) => {
-	const timestamp = new Date().getTime()
 	const data = JSON.parse(event.body)
-	if(typeof data.text !== 'string' || typeof data.checked !== 'boolean'){
+	if(typeof data.recipe !== 'string'){
 		console.error('Validation Failed')
 		callback(new Error('Couldn\'t create the recipe item.'))
 		return
@@ -16,7 +14,7 @@ module.exports.update = (event, context, callback) => {
 		TableName: 'recipes',
 		Item: {
 			id: event.pathParameters.id,
-			recipe: data.text
+			recipe: data.recipe
 		}
 
 	}
